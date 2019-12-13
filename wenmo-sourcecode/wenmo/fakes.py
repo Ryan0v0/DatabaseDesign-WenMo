@@ -6,8 +6,8 @@ from faker import Faker
 from flask import current_app
 from sqlalchemy.exc import IntegrityError
 
-from albumy.extensions import db
-from albumy.models import User, Photo, Tag, Comment, Notification
+from wenmo.extensions import db
+from wenmo.models import User, Photo, Tag, Comment, Notification
 
 fake = Faker('zh_CN')
 
@@ -63,7 +63,7 @@ def fake_tag(count=20):
 
 def fake_photo(count=30):
     # photos
-    upload_path = current_app.config['ALBUMY_UPLOAD_PATH']
+    upload_path = current_app.config['WENMO_UPLOAD_PATH']
     for i in range(count):
         print(i)
 

@@ -5,12 +5,12 @@ from flask import render_template, flash, redirect, url_for, current_app, \
 from flask_login import login_required, current_user
 from sqlalchemy.sql.expression import func
 
-from albumy.decorators import confirm_required, permission_required
-from albumy.extensions import db
-from albumy.forms.main import DescriptionForm, TagForm, CommentForm
-from albumy.models import User, Photo, Tag, Follow, Collect, Comment, Notification
-from albumy.notifications import push_comment_notification, push_collect_notification
-from albumy.utils import rename_image, resize_image, redirect_back, flash_errors
+from wenmo.decorators import confirm_required, permission_required
+from wenmo.extensions import db
+from wenmo.forms.main import DescriptionForm, TagForm, CommentForm
+from wenmo.models import User, Photo, Tag, Follow, Collect, Comment, Notification
+from wenmo.notifications import push_comment_notification, push_collect_notification
+from wenmo.utils import rename_image, resize_image, redirect_back, flash_errors
 
 main_bp = Blueprint('main', __name__)
 
@@ -19,7 +19,7 @@ main_bp = Blueprint('main', __name__)
 def index():
     if current_user.is_authenticated:
         page = request.args.get('page', 1, type=int)
-        per_page = current_app.config['ALBUMY_PHOTO_PER_PAGE']
+        per_page = current_app.config['WENMO_PHOTO_PER_PAGE']
         pagination = Photo.query \
             .join(Follow, Follow.followed_id == Photo.author_id) \
             .filter(Follow.follower_id == current_user.id) \
@@ -48,7 +48,7 @@ def search():
 
     category = request.args.get('category', 'photo')
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_SEARCH_RESULT_PER_PAGE']
+    per_page = current_app.config['WENMO_SEARCH_RESULT_PER_PAGE']
     if category == 'user':
         pagination = User.query.whooshee_search(q).paginate(page, per_page)
     elif category == 'tag':
@@ -63,7 +63,7 @@ def search():
 @login_required
 def show_notifications():
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_NOTIFICATION_PER_PAGE']
+    per_page = current_app.config['WENMO_NOTIFICATION_PER_PAGE']
     notifications = Notification.query.with_parent(current_user)
     filter_rule = request.args.get('filter')
     if filter_rule == 'unread':
@@ -99,7 +99,7 @@ def read_all_notification():
 
 @main_bp.route('/uploads/<path:filename>')
 def get_image(filename):
-    return send_from_directory(current_app.config['ALBUMY_UPLOAD_PATH'], filename)
+    return send_from_directory(current_app.config['WENMO_UPLOAD_PATH'], filename)
 
 
 @main_bp.route('/avatars/<path:filename>')
@@ -115,9 +115,9 @@ def upload():
     if request.method == 'POST' and 'file' in request.files:
         f = request.files.get('file')
         filename = rename_image(f.filename)
-        f.save(os.path.join(current_app.config['ALBUMY_UPLOAD_PATH'], filename))
-        filename_s = resize_image(f, filename, current_app.config['ALBUMY_PHOTO_SIZE']['small'])
-        filename_m = resize_image(f, filename, current_app.config['ALBUMY_PHOTO_SIZE']['medium'])
+        f.save(os.path.join(current_app.config['WENMO_UPLOAD_PATH'], filename))
+        filename_s = resize_image(f, filename, current_app.config['WENMO_PHOTO_SIZE']['small'])
+        filename_m = resize_image(f, filename, current_app.config['WENMO_PHOTO_SIZE']['medium'])
         photo = Photo(
             filename=filename,
             filename_s=filename_s,
@@ -133,7 +133,7 @@ def upload():
 def show_photo(photo_id):
     photo = Photo.query.get_or_404(photo_id)
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_COMMENT_PER_PAGE']
+    per_page = current_app.config['WENMO_COMMENT_PER_PAGE']
     pagination = Comment.query.with_parent(photo).order_by(Comment.timestamp.asc()).paginate(page, per_page)
     comments = pagination.items
 
@@ -225,7 +225,7 @@ def report_photo(photo_id):
 def show_collectors(photo_id):
     photo = Photo.query.get_or_404(photo_id)
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_USER_PER_PAGE']
+    per_page = current_app.config['WENMO_USER_PER_PAGE']
     pagination = Collect.query.with_parent(photo).order_by(Collect.timestamp.asc()).paginate(page, per_page)
     collects = pagination.items
     return render_template('main/collectors.html', collects=collects, photo=photo, pagination=pagination)
@@ -365,7 +365,7 @@ def delete_comment(comment_id):
 def show_tag(tag_id, order):
     tag = Tag.query.get_or_404(tag_id)
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_PHOTO_PER_PAGE']
+    per_page = current_app.config['WENMO_PHOTO_PER_PAGE']
     order_rule = 'time'
     pagination = Photo.query.with_parent(tag).order_by(Photo.timestamp.desc()).paginate(page, per_page)
     photos = pagination.items

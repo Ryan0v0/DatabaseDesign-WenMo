@@ -1,15 +1,15 @@
 from flask import render_template, flash, redirect, url_for, current_app, request, Blueprint
 from flask_login import login_required, current_user, fresh_login_required, logout_user
 
-from albumy.decorators import confirm_required, permission_required
-from albumy.emails import send_change_email_email
-from albumy.extensions import db, avatars
-from albumy.forms.user import EditProfileForm, UploadAvatarForm, CropAvatarForm, ChangeEmailForm, \
+from wenmo.decorators import confirm_required, permission_required
+from wenmo.emails import send_change_email_email
+from wenmo.extensions import db, avatars
+from wenmo.forms.user import EditProfileForm, UploadAvatarForm, CropAvatarForm, ChangeEmailForm, \
     ChangePasswordForm, NotificationSettingForm, PrivacySettingForm, DeleteAccountForm
-from albumy.models import User, Photo, Collect
-from albumy.notifications import push_follow_notification
-from albumy.settings import Operations
-from albumy.utils import generate_token, validate_token, redirect_back, flash_errors
+from wenmo.models import User, Photo, Collect
+from wenmo.notifications import push_follow_notification
+from wenmo.settings import Operations
+from wenmo.utils import generate_token, validate_token, redirect_back, flash_errors
 
 user_bp = Blueprint('user', __name__)
 
@@ -24,7 +24,7 @@ def index(username):
         logout_user()
 
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_PHOTO_PER_PAGE']
+    per_page = current_app.config['WENMO_PHOTO_PER_PAGE']
     pagination = Photo.query.with_parent(user).order_by(Photo.timestamp.desc()).paginate(page, per_page)
     photos = pagination.items
     return render_template('user/index.html', user=user, pagination=pagination, photos=photos)
@@ -34,7 +34,7 @@ def index(username):
 def show_collections(username):
     user = User.query.filter_by(username=username).first_or_404()
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_PHOTO_PER_PAGE']
+    per_page = current_app.config['WENMO_PHOTO_PER_PAGE']
     pagination = Collect.query.with_parent(user).order_by(Collect.timestamp.desc()).paginate(page, per_page)
     collects = pagination.items
     return render_template('user/collections.html', user=user, pagination=pagination, collects=collects)
@@ -74,7 +74,7 @@ def unfollow(username):
 def show_followers(username):
     user = User.query.filter_by(username=username).first_or_404()
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_USER_PER_PAGE']
+    per_page = current_app.config['WENMO_USER_PER_PAGE']
     pagination = user.followers.paginate(page, per_page)
     follows = pagination.items
     return render_template('user/followers.html', user=user, pagination=pagination, follows=follows)
@@ -84,7 +84,7 @@ def show_followers(username):
 def show_following(username):
     user = User.query.filter_by(username=username).first_or_404()
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_USER_PER_PAGE']
+    per_page = current_app.config['WENMO_USER_PER_PAGE']
     pagination = user.following.paginate(page, per_page)
     follows = pagination.items
     return render_template('user/following.html', user=user, pagination=pagination, follows=follows)

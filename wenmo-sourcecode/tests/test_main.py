@@ -7,8 +7,8 @@
 """
 from flask import url_for
 
-from albumy.extensions import db
-from albumy.models import User, Photo, Comment, Notification, Tag
+from wenmo.extensions import db
+from wenmo.models import User, Photo, Comment, Notification, Tag
 from tests.base import BaseTestCase
 
 

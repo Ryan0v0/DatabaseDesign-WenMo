@@ -6,7 +6,7 @@ from flask_avatars import Identicon
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from albumy.extensions import db, whooshee
+from wenmo.extensions import db, whooshee
 
 # relationship table
 roles_permissions = db.Table('roles_permissions',
@@ -123,7 +123,7 @@ class User(db.Model, UserMixin):
 
     def set_role(self):
         if self.role is None:
-            if self.email == current_app.config['ALBUMY_ADMIN_EMAIL']:
+            if self.email == current_app.config['WENMO_ADMIN_EMAIL']:
                 self.role = Role.query.filter_by(name='Administrator').first()
             else:
                 self.role = Role.query.filter_by(name='User').first()
@@ -283,6 +283,6 @@ def delete_avatars(**kwargs):
 def delete_photos(**kwargs):
     target = kwargs['target']
     for filename in [target.filename, target.filename_s, target.filename_m]:
-        path = os.path.join(current_app.config['ALBUMY_UPLOAD_PATH'], filename)
+        path = os.path.join(current_app.config['WENMO_UPLOAD_PATH'], filename)
         if os.path.exists(path):  # not every filename map a unique file
             os.remove(path)

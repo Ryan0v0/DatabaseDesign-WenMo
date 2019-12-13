@@ -5,8 +5,8 @@
     :copyright: © 2018 Grey Li <withlihui@gmail.com>
     :license: MIT, see LICENSE for more details.
 """
-from albumy.extensions import db
-from albumy.models import Comment, Role, User, Photo, Tag
+from wenmo.extensions import db
+from wenmo.models import Comment, Role, User, Photo, Tag
 from tests.base import BaseTestCase
 
 

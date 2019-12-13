@@ -4,7 +4,7 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, HiddenField, ValidationError
 from wtforms.validators import DataRequired, Length, Email, EqualTo, Optional, Regexp
 
-from albumy.models import User
+from wenmo.models import User
 
 
 class EditProfileForm(FlaskForm):

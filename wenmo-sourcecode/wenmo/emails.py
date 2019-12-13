@@ -4,7 +4,7 @@ from threading import Thread
 from flask import current_app, render_template
 from flask_mail import Message
 
-from albumy.extensions import mail
+from wenmo.extensions import mail
 
 
 def _send_async_mail(app, message):
@@ -13,7 +13,7 @@ def _send_async_mail(app, message):
 
 
 def send_mail(to, subject, template, **kwargs):
-    message = Message(current_app.config['ALBUMY_MAIL_SUBJECT_PREFIX'] + subject, recipients=[to])
+    message = Message(current_app.config['WENMO_MAIL_SUBJECT_PREFIX'] + subject, recipients=[to])
     message.body = render_template(template + '.txt', **kwargs)
     message.html = render_template(template + '.html', **kwargs)
     app = current_app._get_current_object()

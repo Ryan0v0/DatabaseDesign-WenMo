@@ -13,9 +13,9 @@ from flask import current_app, request, url_for, redirect, flash
 from itsdangerous import BadSignature, SignatureExpired
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
-from albumy.extensions import db
-from albumy.models import User
-from albumy.settings import Operations
+from wenmo.extensions import db
+from wenmo.models import User
+from wenmo.settings import Operations
 
 
 def generate_token(user, operation, expire_in=None, **kwargs):
@@ -70,8 +70,8 @@ def resize_image(image, filename, base_width):
     h_size = int((float(img.size[1]) * float(w_percent)))
     img = img.resize((base_width, h_size), PIL.Image.ANTIALIAS)
 
-    filename += current_app.config['ALBUMY_PHOTO_SUFFIX'][base_width] + ext
-    img.save(os.path.join(current_app.config['ALBUMY_UPLOAD_PATH'], filename), optimize=True, quality=85)
+    filename += current_app.config['WENMO_PHOTO_SUFFIX'][base_width] + ext
+    img.save(os.path.join(current_app.config['WENMO_UPLOAD_PATH'], filename), optimize=True, quality=85)
     return filename
 
 

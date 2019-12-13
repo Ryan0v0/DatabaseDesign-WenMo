@@ -7,7 +7,7 @@
 """
 from flask import url_for
 
-from albumy.models import User, Photo
+from wenmo.models import User, Photo
 from tests.base import BaseTestCase
 
 

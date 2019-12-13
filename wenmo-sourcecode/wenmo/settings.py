@@ -18,23 +18,23 @@ class Operations:
 
 
 class BaseConfig:
-    ALBUMY_ADMIN_EMAIL = os.getenv('ALBUMY_ADMIN', 'admin@helloflask.com')
-    ALBUMY_PHOTO_PER_PAGE = 12
-    ALBUMY_COMMENT_PER_PAGE = 15
-    ALBUMY_NOTIFICATION_PER_PAGE = 20
-    ALBUMY_USER_PER_PAGE = 20
-    ALBUMY_MANAGE_PHOTO_PER_PAGE = 20
-    ALBUMY_MANAGE_USER_PER_PAGE = 30
-    ALBUMY_MANAGE_TAG_PER_PAGE = 50
-    ALBUMY_MANAGE_COMMENT_PER_PAGE = 30
-    ALBUMY_SEARCH_RESULT_PER_PAGE = 20
-    ALBUMY_MAIL_SUBJECT_PREFIX = '[Albumy]'
-    ALBUMY_UPLOAD_PATH = os.path.join(basedir, 'uploads')
-    ALBUMY_PHOTO_SIZE = {'small': 400,
+    WENMO_ADMIN_EMAIL = os.getenv('WENMO_ADMIN', 'admin@helloflask.com')
+    WENMO_PHOTO_PER_PAGE = 12
+    WENMO_COMMENT_PER_PAGE = 15
+    WENMO_NOTIFICATION_PER_PAGE = 20
+    WENMO_USER_PER_PAGE = 20
+    WENMO_MANAGE_PHOTO_PER_PAGE = 20
+    WENMO_MANAGE_USER_PER_PAGE = 30
+    WENMO_MANAGE_TAG_PER_PAGE = 50
+    WENMO_MANAGE_COMMENT_PER_PAGE = 30
+    WENMO_SEARCH_RESULT_PER_PAGE = 20
+    WENMO_MAIL_SUBJECT_PREFIX = '[Wenmo]'
+    WENMO_UPLOAD_PATH = os.path.join(basedir, 'uploads')
+    WENMO_PHOTO_SIZE = {'small': 400,
                          'medium': 800}
-    ALBUMY_PHOTO_SUFFIX = {
-        ALBUMY_PHOTO_SIZE['small']: '_s',  # thumbnail
-        ALBUMY_PHOTO_SIZE['medium']: '_m',  # display
+    WENMO_PHOTO_SUFFIX = {
+        WENMO_PHOTO_SIZE['small']: '_s',  # thumbnail
+        WENMO_PHOTO_SIZE['medium']: '_m',  # display
     }
 
     SECRET_KEY = os.getenv('SECRET_KEY', 'secret string')
@@ -44,7 +44,7 @@ class BaseConfig:
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    AVATARS_SAVE_PATH = os.path.join(ALBUMY_UPLOAD_PATH, 'avatars')
+    AVATARS_SAVE_PATH = os.path.join(WENMO_UPLOAD_PATH, 'avatars')
     AVATARS_SIZE_TUPLE = (30, 100, 200)
 
     MAIL_SERVER = os.getenv('MAIL_SERVER')
@@ -52,7 +52,7 @@ class BaseConfig:
     MAIL_USE_SSL = True
     MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
-    MAIL_DEFAULT_SENDER = ('Albumy Admin', MAIL_USERNAME)
+    MAIL_DEFAULT_SENDER = ('Wenmo Admin', MAIL_USERNAME)
 
     DROPZONE_ALLOWED_FILE_TYPE = 'image'
     DROPZONE_MAX_FILE_SIZE = 3

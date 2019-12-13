@@ -2,8 +2,8 @@ from wtforms import StringField, SelectField, BooleanField, SubmitField
 from wtforms import ValidationError
 from wtforms.validators import DataRequired, Length, Email
 
-from albumy.forms.user import EditProfileForm
-from albumy.models import User, Role
+from wenmo.forms.user import EditProfileForm
+from wenmo.models import User, Role
 
 
 class EditProfileAdminForm(EditProfileForm):
